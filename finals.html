@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Finals Study Guide — UO Spring 2026</title>
+<style>
+:root{--bg:#0d0f1a;--s1:#13162b;--s2:#1c2040;--s3:#252950;--acc:#7b6cf6;--acc2:#4ecdc4;--text:#e0e2f0;--muted:#7880a0;--bdr:#2a2e52;--grn:#4caf7d;--yel:#f0b429;--red:#e05252}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px}
+a{color:var(--acc2)}
+
+/* header */
+header{background:linear-gradient(135deg,var(--s1),var(--s2));border-bottom:1px solid var(--bdr);padding:20px 32px;display:flex;align-items:center;gap:16px}
+header h1{font-size:1.5rem;font-weight:700}
+header .sub{color:var(--muted);font-size:.85rem;margin-top:3px}
+.badge{background:var(--acc);color:#fff;font-size:.72rem;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.04em}
+
+/* tabs */
+.tabs{display:flex;gap:6px;padding:16px 32px 0;border-bottom:1px solid var(--bdr);overflow-x:auto}
+.tab-btn{background:none;border:none;color:var(--muted);padding:8px 18px;font-size:.9rem;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:.2s;font-weight:500;border-radius:6px 6px 0 0}
+.tab-btn:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.tab-btn.active{color:var(--acc);border-bottom-color:var(--acc);background:rgba(123,108,246,.08)}
+
+/* content */
+.content{padding:28px 32px;max-width:1100px;margin:0 auto}
+.tab-panel{display:none}.tab-panel.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+h2{font-size:1.6rem;margin-bottom:20px}
+
+/* section nav */
+.section-nav{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.snav-btn{background:var(--s2);border:1px solid var(--bdr);color:var(--muted);padding:7px 18px;border-radius:20px;cursor:pointer;font-size:.85rem;font-weight:500;transition:.2s}
+.snav-btn:hover{color:var(--text);border-color:var(--acc)}
+.snav-btn.active{background:var(--acc);color:#fff;border-color:var(--acc)}
+
+/* practice exam */
+.exam-q{border:1px solid var(--bdr);border-radius:10px;margin-bottom:14px;overflow:hidden}
+.exam-q-header{display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:var(--s2);user-select:none;transition:.2s}
+.exam-q-header:hover{background:var(--s3)}
+.exam-q-title{font-weight:600;flex:1}
+.pts-badge{background:rgba(123,108,246,.2);color:var(--acc);font-size:.78rem;padding:3px 10px;border-radius:12px;font-weight:600}
+.expand-icon{color:var(--muted);font-size:.85rem;transition:.2s}
+.exam-q-body{padding:18px;background:var(--s1)}
+.question-text{line-height:1.7;color:#ced4ef;margin-bottom:16px;white-space:pre-wrap}
+.reveal-btn{background:none;border:1px solid var(--acc);color:var(--acc);padding:7px 18px;border-radius:8px;cursor:pointer;font-size:.85rem;transition:.2s}
+.reveal-btn:hover{background:rgba(123,108,246,.15)}
+.solution{margin-top:18px;border-top:1px solid var(--bdr);padding-top:16px}
+.solution-label{font-size:.75rem;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.solution-text{line-height:1.75;color:#b8f0d0;white-space:pre-wrap;font-family:'SF Mono',Menlo,monospace;font-size:.88rem}
+
+/* topics */
+.topic-card{border:1px solid var(--bdr);border-radius:10px;margin-bottom:12px;overflow:hidden}
+.topic-header{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;background:var(--s2);font-weight:600;user-select:none;transition:.2s}
+.topic-header:hover{background:var(--s3)}
+.topic-body{padding:20px;background:var(--s1)}
+.topic-content{line-height:1.75;color:#cdd3ee;white-space:pre-wrap}
+
+/* flashcards */
+.fc-controls{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.fc-controls button{background:var(--s2);border:1px solid var(--bdr);color:var(--text);padding:8px 18px;border-radius:8px;cursor:pointer;font-size:.9rem;transition:.2s}
+.fc-controls button:hover{background:var(--s3);border-color:var(--acc)}
+.shuffle-btn{margin-left:auto;background:rgba(78,205,196,.1)!important;border-color:var(--acc2)!important;color:var(--acc2)!important}
+#fc-counter{color:var(--muted);font-size:.9rem;min-width:60px;text-align:center}
+.fc-container{display:flex;justify-content:center}
+.fc-card{width:100%;max-width:640px;height:240px;cursor:pointer;perspective:1200px}
+.fc-inner{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.fc-card.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-front,.fc-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+.fc-front{background:var(--s2);border:1px solid var(--bdr)}
+.fc-back{background:linear-gradient(135deg,#1b2545,#1e2a4a);border:1px solid var(--acc);transform:rotateY(180deg)}
+.fc-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:12px}
+.fc-back .fc-label{color:var(--acc2)}
+.fc-text{font-size:.95rem;line-height:1.6;color:var(--text)}
+.fc-back .fc-text{color:var(--acc2)}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Finals Study Guide</h1>
+    <div class="sub">University of Oregon · Spring 2026 · CS 315, CS 330, EC 434</div>
+  </div>
+  <span class="badge">Claude-powered</span>
+</header>
+<nav class="tabs">
+<button class="tab-btn active" onclick="showTab('cs315')">CS 315 — Algorithms</button>
+<button class="tab-btn" onclick="showTab('cs330')">CS 330 — C/C++</button>
+<button class="tab-btn" onclick="showTab('ec434')">EC 434 — Env. Econ</button>
+</nav>
+<main class="content">
+<div id="panel-cs315" class="tab-panel active">
+  <h2>CS 315 — Intermediate Algorithms</h2>
+  <div class="section-nav">
+    <button class="snav-btn active" onclick="showSection('cs315','exam',this)">Practice Exam</button>
+    <button class="snav-btn" onclick="showSection('cs315','topics',this)">Key Topics</button>
+    <button class="snav-btn" onclick="showSection('cs315','flash',this)">Flashcards</button>
+  </div>
+  <div id="cs315-exam" class="sub-panel active"><div class="practice-exam">
+<div class="exam-q" id="q1">
+  <div class="exam-q-header" onclick="toggleQ('q1')">
+    <span class="exam-q-title">Q1 — Matrix Chain Problem</span>
+    <span class="pts-badge">15 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">You are given n matrices A₁,A₂,...,Aₙ where Aᵢ is a d_{i-1}×dᵢ matrix.<br>Goal: find (i) the minimum number of scalar multiplications to compute A₁·A₂···Aₙ and (ii) the optimal multiplication order.<br>Let M(i,j) = minimum multiplications needed to compute Aᵢ·Aᵢ₊₁···Aⱼ.<br><br><b>Q1.1 (5 pts)<b> Write the recursive formulation for M(i,j).<br><br><b>Q1.2 (10 pts)<b> Given four matrices A₁,A₂,A₃,A₄ with sizes 20×1, 1×30, 30×5, 5×25 — fill in the M table and give the optimal multiplication order.</div>
+    <button class="reveal-btn" onclick="revealSol('q1')">Show Solution</button>
+    <div class="solution" id="sol-q1" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">**Q1.1:** M(i,j) = min over i≤k<j { M(i,k) + M(k+1,j) + d_{i-1}·dₖ·dⱼ }<br><br>Base case: M(i,i) = 0<br><br>**Q1.2:** The M table fills bottom-up (by chain length). Key values:<br>- M(1,2)=600, M(2,3)=150, M(3,4)=3750<br>- M(1,3)=750 (split k=2: 600+0+20·30·5=750; k=1 gives 3100)<br>- M(2,4)=1350 (split k=2: 0+3750+1·30·25=4500; k=3: 150+0+1·5·25=275 → 1425? → best=1350)<br>- M(1,4)=1000 (split at k=1: M(1,1)+M(2,4)+20·1·25=0+1350+500=1850; k=2: 750+3750+20·30·25=19500; k=3: M(1,3)+0+20·5·25=750+0+2500=3250)<br><br>**Optimal order:** A₁·((A₂·A₃)·A₄)</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q2">
+  <div class="exam-q-header" onclick="toggleQ('q2')">
+    <span class="exam-q-title">Q2 — Huffman Coding</span>
+    <span class="pts-badge">15 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">Given letters and frequencies:<br>| Z | Y | X | W | V | T | S | R |<br>|10 | 6 |14 | 4 | 8 | 5 |13 | 6 |<br><br>Use Huffman's algorithm to build the optimal prefix-free code tree. Show the tree and the code for each letter.</div>
+    <button class="reveal-btn" onclick="revealSol('q2')">Show Solution</button>
+    <div class="solution" id="sol-q2" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">Build by repeatedly merging the two lowest-frequency nodes:<br><br>Step-by-step merges (lowest two each time):<br>W(4)+T(5)=9 → Y(6)+R(6)=12 → V(8)+[WT](9)=17 → Z(10)+[YR](12)=22 → S(13)+X(14)=27 → [VWT](17)+[ZYR](22)=39 → [SX](27)+[ZWYR...]=39+27=66<br><br>**Final codes:**<br>- X: 00<br>- S: 01<br>- Z: 100<br>- V: 110<br>- Y: 1010<br>- R: 1011<br>- T: 1110<br>- W: 1111<br><br>Key insight: more frequent letters get shorter codes.</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q3">
+  <div class="exam-q-header" onclick="toggleQ('q3')">
+    <span class="exam-q-title">Q3 — Min Cut / Max Flow</span>
+    <span class="pts-badge">20 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">Given a network G with source s and sink t and integer capacities on edges, determine the <b>max flow<b> value and a <b>min cut<b>.<br><br>(The exam provides a specific graph figure — the answer below is for the sample exam graph.)</div>
+    <button class="reveal-btn" onclick="revealSol('q3')">Show Solution</button>
+    <div class="solution" id="sol-q3" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">**Max flow = 8**<br><br>Use Ford-Fulkerson: repeatedly find augmenting paths in the residual graph.<br><br>**Min cut:** A min cut separates s from t with total capacity = max flow (by the Max-Flow Min-Cut theorem). There may be multiple valid min cuts as long as total capacity = 8.<br><br>Key facts:<br>- Max-Flow Min-Cut theorem: max flow value = min cut capacity<br>- Ford-Fulkerson terminates in O(E·|max flow|) with integer capacities<br>- Residual graph: for each edge (u,v) with capacity c and flow f, add forward edge capacity c-f and backward edge f</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q4">
+  <div class="exam-q-header" onclick="toggleQ('q4')">
+    <span class="exam-q-title">Q4 — Divide & Conquer: 12ⁿ</span>
+    <span class="pts-badge">20 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">Design an <b>O(n^{log₂3})<b> divide-and-conquer algorithm to compute the binary representation of 12ⁿ. You may use Integer-Multiplication (from class) as a subroutine.<br><br><b>Q4.1 (10 pts)<b> Write pseudocode.<br><br><b>Q4.2 (10 pts)<b> Analyze runtime using the recursion tree:<br>- How many sub-problems at depth i?<br>- Size of each sub-problem at depth i?<br>- Depth of the tree?<br>- Total runtime T(n)?</div>
+    <button class="reveal-btn" onclick="revealSol('q4')">Show Solution</button>
+    <div class="solution" id="sol-q4" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">**Q4.1 Pseudocode:**<br>```<br>Power-Of-Twelve(n):<br>  if n == 1: return 1100   # binary for 12<br>  c = Power-Of-Twelve(⌊n/2⌋)<br>  s = Integer-Multiplication(c, c)   # s = 12^(2·⌊n/2⌋)<br>  if n is even: return s<br>  else: return (s·2³) + (s·2²)      # multiply by 12 = 8+4<br>```<br>Key idea: 12ⁿ = (12^{n/2})² and 12 = 8+4 = 2³+2².<br><br>**Q4.2 Analysis:**<br>- Sub-problems at depth i: **1** (only one recursive call)<br>- Size at depth i: **n/2ⁱ**<br>- Tree depth: **log₂(n)**<br>- T(n): work at each node = Integer-Multiplication on O(m)-bit inputs = O(m^{log₂3})<br>  Sum = Σ_{d=0}^{logn} (n/2^d)^{log₂3} = n^{log₂3} · Σ(1/2^{log₂3})^d ≈ O(n^{log₂3})</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q5">
+  <div class="exam-q-header" onclick="toggleQ('q5')">
+    <span class="exam-q-title">Q5 — DP: Crab Fishing</span>
+    <span class="pts-badge">15 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">Liz can catch crabs on day i (getting X[i] crabs) but must then wait d[i] days before fishing again (earliest return: day i+d[i]+1). She wants to maximize total crabs by end of day n.<br><br><b>Q5.1 (7 pts)<b> Define your sub-problems.<br><br><b>Q5.2 (8 pts)<b> Give the recurrence relation.</div>
+    <button class="reveal-btn" onclick="revealSol('q5')">Show Solution</button>
+    <div class="solution" id="sol-q5" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">**Q5.1 Sub-problems:**<br>Let S[i] = maximum crabs Liz can catch starting from day i through day n.<br>Solution to the original problem: S[1].<br><br>**Q5.2 Recurrence:**<br>S[i] = max(S[i+1],   X[i] + S[i+d[i]+1])<br>         ↑ skip day i   ↑ fish on day i, then skip to day i+d[i]+1<br><br>Base cases: S[n+1] = S[n+2] = ... = 0<br><br>**Algorithm:** Compute S bottom-up from i=n down to i=1.<br>Time: O(n)</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q6">
+  <div class="exam-q-header" onclick="toggleQ('q6')">
+    <span class="exam-q-title">Q6 — Greedy: Announcement Scheduling</span>
+    <span class="pts-badge">15 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">n workers each have a shift interval [sᵢ, fᵢ]. Make as few announcements as possible so every worker hears at least one (a worker hears an announcement at time t if sᵢ ≤ t ≤ fᵢ).<br><br><b>Q6.1 (7 pts)<b> Design a greedy algorithm.<br><br><b>Q6.2 (8 pts)<b> Prove its correctness.</div>
+    <button class="reveal-btn" onclick="revealSol('q6')">Show Solution</button>
+    <div class="solution" id="sol-q6" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">**Q6.1 Greedy Algorithm:**<br>1. Sort workers' shifts by **increasing finish time** f₁ ≤ f₂ ≤ ... ≤ fₙ.<br>2. Initialize announcement set A = {}.<br>3. While uncovered workers remain:<br>   - Take the uncovered worker with the earliest finish time fᵢ.<br>   - Add fᵢ to A (announce at the last possible moment of that shift).<br>   - Remove all workers whose shift contains fᵢ.<br>4. Return A.<br><br>Intuition: announcing at the latest moment of the earliest-ending shift covers the most workers.<br><br>**Q6.2 Proof of Correctness (exchange argument):**<br>Sort so f₁ ≤ f₂ ≤ ... ≤ fₙ. Let greedy picks g₁ < g₂ < ... < gᵣ; optimal picks c₁ < c₂ < ... < cₖ with k minimal.<br><br>**Claim:** gᵢ ≥ cᵢ for all i (greedy announcements are "at least as late").<br>- Base: g₁ = f₁ (earliest finish time). Optimal must cover worker 1, so s₁ ≤ c₁ ≤ f₁, meaning g₁ ≥ c₁.<br>- Inductive step: assume gᵢ ≥ cᵢ. Since gᵢ is at least as late as cᵢ, greedy covers ≥ as many workers. So the next uncovered worker for greedy has finish time fₘ₊₁ ≥ fₘ′₊₁, giving gᵢ₊₁ = fₘ₊₁ ≥ fₘ′₊₁ ≥ cᵢ₊₁.<br><br>Since {g₁,...,gₖ} covers all workers, r ≤ k, contradicting r > k. So greedy is optimal.</div>
+    </div>
+  </div>
+</div></div></div>
+  <div id="cs315-topics" class="sub-panel" style="display:none"><div class="topics-list">
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('graphs')">
+    <span>Graphs: BFS, DFS, SCC, Topological Sort</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-graphs" style="display:none">
+    <div class="topic-content">BFS (Breadth-First Search):<br>- Uses a queue; explores level by level<br>- Finds shortest path in unweighted graphs<br>- Time: O(V+E)<br><br>DFS (Depth-First Search):<br>- Uses a stack (or recursion); explores as deep as possible first<br>- Used for cycle detection, topological sort, SCC<br>- Time: O(V+E)<br>- Discovery time d[v] and finish time f[v] are key<br><br>Topological Sort:<br>- Order vertices so all edges go from earlier to later<br>- Only on DAGs (directed acyclic graphs)<br>- Algorithm: run DFS, output vertices in decreasing finish time order<br><br>Strongly Connected Components (SCC):<br>- Kosaraju-Sharir: (1) DFS on G, record finish order; (2) DFS on Gᵀ in reverse finish order<br>- Each DFS tree in step 2 = one SCC<br>- Time: O(V+E)</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('mst')">
+    <span>Minimum Spanning Trees: Kruskal & Prim</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-mst" style="display:none">
+    <div class="topic-content">MST: spanning tree of G with minimum total edge weight.<br><br>Kruskal's Algorithm:<br>- Sort all edges by weight<br>- Add edge if it doesn't form a cycle (use Union-Find)<br>- Greedy: always picks the globally cheapest safe edge<br>- Time: O(E log E)<br><br>Prim's Algorithm:<br>- Start from any vertex, greedily expand the tree<br>- Always add the cheapest edge connecting tree to non-tree vertex<br>- Use a min-heap for efficiency<br>- Time: O(E log V) with binary heap<br><br>Key properties:<br>- Cut property: the minimum weight edge crossing any cut is in every MST<br>- Cycle property: the maximum weight edge in any cycle is NOT in any MST</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('shortestpath')">
+    <span>Shortest Paths: Dijkstra, Bellman-Ford</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-shortestpath" style="display:none">
+    <div class="topic-content">Dijkstra's Algorithm (non-negative weights):<br>- Greedy: always relax the vertex with smallest known distance<br>- Use a min-priority queue<br>- Time: O((V+E) log V) with binary heap<br>- Does NOT work with negative edge weights<br><br>Bellman-Ford (negative weights OK):<br>- Relax all edges V-1 times<br>- If you can still relax after V-1 iterations → negative cycle detected<br>- Time: O(VE)<br>- Works on graphs with negative edges (but not negative cycles)<br><br>Floyd-Warshall (all-pairs shortest path):<br>- DP: d[i][j][k] = shortest path from i to j using only vertices {1,...,k}<br>- Recurrence: d[i][j][k] = min(d[i][j][k-1], d[i][k][k-1]+d[k][j][k-1])<br>- Time: O(V³)<br><br>Acyclic Shortest Path:<br>- On a DAG: relax edges in topological order<br>- Time: O(V+E), works with negative edges</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('dp')">
+    <span>Dynamic Programming</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-dp" style="display:none">
+    <div class="topic-content">DP Template:<br>1. Define sub-problems<br>2. Write recurrence relation<br>3. Identify base cases<br>4. Compute bottom-up (or memoize top-down)<br>5. Reconstruct solution<br><br>Matrix Chain Multiplication:<br>- M(i,j) = min over k: M(i,k)+M(k+1,j)+d_{i-1}·dₖ·dⱼ<br>- Fill table by increasing chain length<br><br>Longest Common Subsequence (LCS):<br>- dp[i][j] = LCS of X[1..i] and Y[1..j]<br>- If X[i]==Y[j]: dp[i][j] = dp[i-1][j-1]+1<br>- Else: dp[i][j] = max(dp[i-1][j], dp[i][j-1])<br><br>Longest Increasing Subsequence (LIS):<br>- dp[i] = length of LIS ending at index i<br>- O(n²) DP; O(n log n) with patience sorting<br><br>0/1 Knapsack:<br>- dp[i][w] = max value using items 1..i with capacity w<br>- dp[i][w] = max(dp[i-1][w], vᵢ + dp[i-1][w-wᵢ]) if wᵢ ≤ w<br><br>Bellman-Ford as DP:<br>- dp[k][v] = shortest path from s to v using at most k edges<br>- Recurrence: dp[k][v] = min over (u,v): dp[k-1][u] + w(u,v)</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('greedy')">
+    <span>Greedy Algorithms</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-greedy" style="display:none">
+    <div class="topic-content">Greedy: make locally optimal choice at each step; prove globally optimal.<br><br>Proof techniques:<br>- Exchange argument: show swapping any greedy choice with optimal doesn't improve<br>- "Greedy stays ahead": show greedy is at least as good as optimal at each step<br><br>Activity Selection (Interval Scheduling):<br>- Sort by finish time; always pick the next compatible activity<br>- Greedy choice: earliest finish time<br>- Correctness: exchange argument<br><br>Huffman Coding:<br>- Greedy: always merge two lowest-frequency nodes<br>- Produces optimal prefix-free code (minimum weighted path length)<br>- Proof: if two symbols have lowest frequency, they can have the longest codes<br><br>Fractional Knapsack:<br>- Sort items by value/weight ratio; fill greedily<br>- NOT the same as 0/1 knapsack (which requires DP)</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('flow')">
+    <span>Max Flow & Min Cut (Ford-Fulkerson)</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-flow" style="display:none">
+    <div class="topic-content">Definitions:<br>- Flow network: directed graph with capacities c(u,v)<br>- Valid flow: 0 ≤ f(u,v) ≤ c(u,v); flow conservation at all non-source/sink nodes<br>- Max flow: maximum total flow from s to t<br><br>Ford-Fulkerson Algorithm:<br>1. Start with 0 flow<br>2. While augmenting path exists in residual graph:<br>   - Send flow along that path (bottleneck = min residual capacity)<br>   - Update residual graph<br>3. Residual graph: for edge (u,v) with capacity c and flow f:<br>   - Forward edge: c-f remaining capacity<br>   - Backward edge: f (can "undo" flow)<br><br>Time: O(E · |max flow|) — can be slow with irrational capacities; Edmonds-Karp (BFS) = O(VE²)<br><br>Max-Flow Min-Cut Theorem:<br>max flow = min cut capacity<br>- Min cut: partition (S,T) with s∈S, t∈T minimizing sum of capacities of edges from S to T<br>- The algorithm finds the min cut implicitly: S = vertices reachable from s in residual graph when algorithm terminates</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('divconq')">
+    <span>Divide & Conquer</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-divconq" style="display:none">
+    <div class="topic-content">Pattern:<br>1. Divide problem into subproblems<br>2. Conquer subproblems recursively<br>3. Combine solutions<br><br>Master Theorem (T(n) = aT(n/b) + f(n)):<br>- If f(n) = O(n^{log_b(a) - ε}): T(n) = Θ(n^{log_b a})<br>- If f(n) = Θ(n^{log_b a}): T(n) = Θ(n^{log_b a} · log n)<br>- If f(n) = Ω(n^{log_b(a) + ε}) and af(n/b) ≤ cf(n): T(n) = Θ(f(n))<br><br>Karatsuba Integer Multiplication:<br>- Standard: O(n²); Karatsuba: O(n^{log₂3}) ≈ O(n^{1.585})<br>- Split n-bit numbers: x = x_H·2^{n/2} + x_L<br>- Compute 3 multiplications instead of 4: (x_H+x_L)(y_H+y_L), x_H·y_H, x_L·y_L<br>- T(n) = 3T(n/2) + O(n) → O(n^{log₂3})<br><br>Merge Sort: T(n) = 2T(n/2) + O(n) → O(n log n)</div>
+  </div>
+</div></div></div>
+  <div id="cs315-flash" class="sub-panel" style="display:none"><div class="fc-controls"><button onclick="prevCard()">◀</button><span id="fc-counter">1 / 20</span><button onclick="nextCard()">▶</button><button onclick="shuffleCards()" class="shuffle-btn">Shuffle</button></div><div class="fc-container"><div class="fc-card" id="fc-0"  onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the time complexity of BFS and DFS on a graph with V vertices and E edges?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Both BFS and DFS run in Θ(V + E) time when using an adjacency-list representation.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-1" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the key difference between DFS preorder and postorder?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Preorder records a vertex when DFS is first called on it; postorder records a vertex when DFS returns from it. Reverse postorder gives a topological ordering of a DAG.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-2" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">State the correctness condition for topological sort via DFS.</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Reverse DFS postorder of a DAG is a valid topological order. For any edge v→w, DFS(w) finishes before DFS(v) finishes, so w appears after v in reverse postorder.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-3" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">When does a digraph have a topological ordering?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">A digraph has a topological ordering if and only if it contains no directed cycle (i.e., it is a DAG).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-4" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">State the Cut Property for Minimum Spanning Trees.</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">For any cut of a connected graph, the minimum-weight crossing edge is guaranteed to be in the MST.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-5" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the time complexity of Kruskal's MST algorithm?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">O(E log E) due to sorting edges; union-find operations are nearly linear, so the bottleneck is sorting.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-6" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the time complexity of lazy Prim's MST algorithm?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Θ(E log E) time and Θ(E) extra space, since each edge is inserted and deleted from the priority queue at most once.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-7" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the key difference between Prim's algorithm and Dijkstra's algorithm?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Prim selects the minimum-weight edge connecting any non-tree vertex to the tree; Dijkstra selects the vertex with the minimum cumulative distance from the source. Both use a priority queue but optimize different objectives.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-8" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">State the edge relaxation condition used in Dijkstra's and Bellman-Ford algorithms.</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">For edge e = v→w with weight e.weight: if distTo[w] &gt; distTo[v] + e.weight, then update distTo[w] = distTo[v] + e.weight and edgeTo[w] = e.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-9" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the time complexity of Dijkstra's algorithm using a binary heap priority queue?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">O(E log V), since each vertex is extracted once (O(V log V)) and each edge relaxation costs O(log V), giving O(E log V) total.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-10" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the Bellman-Ford algorithm and when is it preferred over Dijkstra?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Bellman-Ford relaxes all E edges V times, running in O(VE) time. It is preferred when edge weights can be negative (but no negative cycles exist), where Dijkstra is not applicable.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-11" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are the two key elements required for a dynamic programming solution?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Optimal substructure (optimal solutions to sub-problems combine to form the optimal solution to the whole problem) and overlapping subproblems (the same sub-problems recur multiple times).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-12" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">Write the DP recurrence for the Longest Increasing Subsequence (LIS) using the formulation L[i,j].</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">L[i,j] = 0 if i&lt;0; 𝕀(A[i]≤A[j]) if i=0; L[i−1,j] if A[i]&gt;A[j]; max{1+L[i−1,i], L[i−1,j]} otherwise. The overall LIS length is max_j L[n−1,j]. Runtime is O(n²).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-13" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the recurrence for the 0/1 Knapsack problem?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Let OPT(i,w) = max value using items 1..i with capacity w. Then OPT(i,w) = OPT(i−1,w) if item i does not fit (w_i &gt; w), else max{OPT(i−1,w), v_i + OPT(i−1,w−w_i)}. Runtime is O(nW).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-14" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the optimal substructure property used in the rod-cutting problem?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">The maximum revenue r_n = max over i of {p_i + r_{n−i}}, meaning an optimal solution for a rod of length n incorporates optimal solutions for the two sub-rods created by the first cut.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-15" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the time complexity of the bottom-up rod-cutting DP algorithm?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Θ(n²), because for each length j from 1 to n, we iterate over all i from 1 to j, giving a total of n(n+1)/2 operations.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-16" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is Huffman coding and what greedy property does it use?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Huffman coding builds an optimal prefix-free binary code by greedily merging the two lowest-frequency symbols into a single node, repeated until one tree remains. It is optimal because the two rarest symbols have the longest codewords and can always be placed at the deepest level.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-17" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the Fibonacci DP recurrence and why is the naive recursive approach exponential?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">F(n) = F(n−1) + F(n−2) with F(1)=F(2)=1. The naive approach is exponential (Ω(2^{n/2})) because it recomputes the same sub-problems repeatedly; memoization or bottom-up DP reduces this to O(n).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-18" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the time complexity of the Floyd-Warshall all-pairs shortest paths algorithm and what DP substructure does it use?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Floyd-Warshall runs in O(V³) time. Its substructure: the shortest path from i to j using only intermediate vertices from {1,...,k} is either the path not using k, or the path through k, giving d^(k)[i][j] = min{d^(k−1)[i][j], d^(k−1)[i][k] + d^(k−1)[k][j]}.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-19" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the independent set problem on a path graph and how is it solved with DP?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Given a path graph with weighted vertices, find a maximum-weight subset of vertices with no two adjacent. The recurrence is OPT(i) = max{OPT(i−1), w_i + OPT(i−2)}, solved in O(n) time by building up from the base cases OPT(0)=0 and OPT(1)=w_1.</div></div>
+  </div>
+</div></div></div>
+</div>
+<div id="panel-cs330" class="tab-panel ">
+  <h2>CS 330 — C/C++ and Unix</h2>
+  <div class="section-nav">
+    <button class="snav-btn active" onclick="showSection('cs330','exam',this)">Practice Exam</button>
+    <button class="snav-btn" onclick="showSection('cs330','topics',this)">Key Topics</button>
+    <button class="snav-btn" onclick="showSection('cs330','flash',this)">Flashcards</button>
+  </div>
+  <div id="cs330-exam" class="sub-panel active"><div class="practice-exam">
+<div class="exam-q" id="q1">
+  <div class="exam-q-header" onclick="toggleQ('q1')">
+    <span class="exam-q-title">Q1 — C Language Short Answer</span>
+    <span class="pts-badge">10 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text"><b>(a) (3 pts) Memory leak calculation:<b><br>```c<br>mystruct* myarray = (mystruct*) malloc(sizeof(mystruct) * atoi(argv[1]));<br>for(int i = 0; i < atoi(argv[1]); i++) {<br>    myarray[i].j = (int*) malloc(sizeof(int) * atoi(argv[2]));<br>}<br>// ./a.out 10 20<br>```<br>How many bytes are lost due to memory leak?<br><br><b>(b) (4 pts)<b> Given a 2D array access code, which output (A/B/C/D) is printed?<br><br><b>(c) (3 pts)<b> Which is NOT a correct method for printing the i-th element (1-indexed) of `int* A`?</div>
+    <button class="reveal-btn" onclick="revealSol('q1')">Show Solution</button>
+    <div class="solution" id="sol-q1" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">**(a)** `./a.out 10 20`:<br>- myarray itself: sizeof(mystruct)×10 bytes leaked (never freed)<br>  - sizeof(mystruct) = sizeof(int) + sizeof(int*) = 4+8 = 12 bytes → 12×10 = 120<br>- Each myarray[i].j: sizeof(int)×20 = 80 bytes × 10 = 800 bytes<br>- **Total: ≥ 920 bytes** (or 960 with padding, both accepted)<br><br>**(b)** Answer: **B** (3 6 7 / 4 6 9 / 7 5 9)<br><br>**(c)** Answer: **D** — the incorrect printing method. Remember:<br>- `*(A+i-1)` ✓ and `A[i-1]` ✓ work for 1-indexed<br>- Pointer arithmetic and subscript are equivalent: `A[k] == *(A+k)`</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q2">
+  <div class="exam-q-header" onclick="toggleQ('q2')">
+    <span class="exam-q-title">Q2 — Rotate 2D Array (C)</span>
+    <span class="pts-badge">15 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">Implement `void rotate_arr(int<b> mat, int m)` that rotates an m×m matrix <b>90° counter-clockwise<b> in-place (storing result back in mat). You may use a temporary array. No memory leaks!<br><br>Example: [[1,2,3],[4,5,6],[7,8,9]] → [[3,6,9],[2,5,8],[1,4,7]]</div>
+    <button class="reveal-btn" onclick="revealSol('q2')">Show Solution</button>
+    <div class="solution" id="sol-q2" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">```c<br>void rotate_arr(int** mat, int m) {<br>    // Allocate temp<br>    int** tmp = malloc(sizeof(int*) * m);<br>    for(int i = 0; i < m; i++)<br>        tmp[i] = malloc(sizeof(int) * m);<br><br>    // Copy with rotation: CCW means new[m-1-j][i] = old[i][j]<br>    for(int i = 0; i < m; i++)<br>        for(int j = 0; j < m; j++)<br>            tmp[m-1-j][i] = mat[i][j];<br><br>    // Copy back<br>    for(int i = 0; i < m; i++)<br>        for(int j = 0; j < m; j++)<br>            mat[i][j] = tmp[i][j];<br><br>    // Free temp<br>    for(int i = 0; i < m; i++) free(tmp[i]);<br>    free(tmp);<br>}<br>```<br>**In-place (extra credit):** transpose then flip columns:<br>```c<br>// Transpose<br>for(i) for(j>i) swap(mat[i][j], mat[j][i]);<br>// Flip columns (reverse each column)<br>for(j) for(i < m/2) swap(mat[i][j], mat[m-1-i][j]);<br>```</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q3">
+  <div class="exam-q-header" onclick="toggleQ('q3')">
+    <span class="exam-q-title">Q3 — Prefix Sum In-Place (C)</span>
+    <span class="pts-badge">6 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">Implement `void prefix_sum(int* A, int m)` that computes prefix sum <b>in-place<b> (no extra storage, no redundant operations).<br><br>Recall: y[i] = x[0] + x[1] + ... + x[i]</div>
+    <button class="reveal-btn" onclick="revealSol('q3')">Show Solution</button>
+    <div class="solution" id="sol-q3" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">```c<br>void prefix_sum(int* A, int m) {<br>    for(unsigned int i = 1; i < m; i++) {<br>        A[i] = A[i] + A[i-1];<br>    }<br>}<br>```<br>Key points:<br>- Start loop at i=1 (A[0] is already its own prefix sum)<br>- No temporary variable needed — A[i-1] is already the prefix sum up to i-1 when we reach index i<br>- Do NOT start at i=0 (that would be a redundant operation: A[0] = A[0] + ... nothing)</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q4">
+  <div class="exam-q-header" onclick="toggleQ('q4')">
+    <span class="exam-q-title">Q4 — C++ Short Answer</span>
+    <span class="pts-badge">10 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text"><b>(a) (3 pts)<b> What is the constructor/destructor call order for a class hierarchy with base My_Int and derived My_NNInt?<br><br><b>(b) (1 pt)<b> Static vs non-static member: if `j` is static and `i` is not, what is printed?<br><br><b>(c) (2 pts)<b> Which lines cause a compiler error when accessing private/const members?<br><br><b>(d) (2 pts)<b> What does this pointer arithmetic output?<br><br><b>(e) (2 pts)<b> Which method for initializing an array of objects is NOT correct?</div>
+    <button class="reveal-btn" onclick="revealSol('q4')">Show Solution</button>
+    <div class="solution" id="sol-q4" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">**(a)** Constructor/destructor order for My_NNInt (extends My_Int):<br>```<br>My_Int()       ← base ctor first<br>My_Int()       ← another My_Int object<br>My_NNInt()     ← derived ctor after base<br>~My_NNInt()    ← derived dtor first<br>~My_Int()      ← then base<br>~My_Int()      ← last My_Int<br>```<br>Rule: constructors go base→derived; destructors go derived→base.<br><br>**(b)** Answer: **A** — static members are shared across instances, so modifying j through one reference affects all.<br><br>**(c)** Answer: **C** — lines 7 and 8 cause errors (accessing private members outside class / modifying const).<br><br>**(d)** Answer: `16 16` then `17 17`<br><br>**(e)** Answer: **C** — that initialization method is not valid for arrays of objects with a parameterized constructor.</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q5">
+  <div class="exam-q-header" onclick="toggleQ('q5')">
+    <span class="exam-q-title">Q5 — Destructor & Copy Constructor (C++)</span>
+    <span class="pts-badge">8 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">Given:<br>```cpp<br>class Test {<br>    int* array;<br>    int n;<br>    // ...<br>};<br>void f(Test t) { delete[] t.array; t.n = 0; }<br>```<br><b>(a) (2 pts)<b> Declare the destructor and copy constructor.<br><b>(b) (2 pts)<b> Implement the destructor.<br><b>(c) (4 pts)<b> Implement the copy constructor so that passing t1 to f() does NOT destroy t1's array.</div>
+    <button class="reveal-btn" onclick="revealSol('q5')">Show Solution</button>
+    <div class="solution" id="sol-q5" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">**(a) Declarations:**<br>```cpp<br>~Test();<br>Test(const Test& in);<br>```<br><br>**(b) Destructor:**<br>```cpp<br>Test::~Test() {<br>    delete[] array;<br>    array = nullptr;  // optional but good practice<br>    n = 0;            // optional<br>}<br>```<br><br>**(c) Copy Constructor (deep copy):**<br>```cpp<br>Test::Test(const Test& in) {<br>    n = in.n;<br>    array = new int[n];<br>    for(unsigned int i = 0; i < n; i++)<br>        array[i] = in.array[i];<br>}<br>```<br>WHY: Without a copy constructor, C++ does a **shallow copy** (copies the pointer, not the data). When f() deletes t.array, it deletes the same memory t1.array points to. Deep copy allocates new memory, so f() deletes its own copy and t1 is unaffected.</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q6">
+  <div class="exam-q-header" onclick="toggleQ('q6')">
+    <span class="exam-q-title">Q6 — Pixel Class (C++)</span>
+    <span class="pts-badge">18 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">Implement a Pixel class with members `uchar r, g, b`.<br><br><b>(a) 5 pts)<b> Parametric constructor `Pixel(uchar r, uchar g, uchar b)` — declaration + implementation.<br><b>(b) (3 pts)<b> Destructor.<br><b>(c) (5 pts)<b> `uchar addSamples(uchar a, uchar b) const` — returns average of two color components.<br><b>(d) (5 pts)<b> Overload `operator+` — returns a new Pixel whose components are averages of the two inputs. Use addSamples.</div>
+    <button class="reveal-btn" onclick="revealSol('q6')">Show Solution</button>
+    <div class="solution" id="sol-q6" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">**(a) Constructor:**<br>```cpp<br>// In class: Pixel(uchar r, uchar g, uchar b);<br>Pixel::Pixel(uchar r, uchar g, uchar b) {<br>    this->r = r;<br>    this->g = g;<br>    this->b = b;<br>}<br>```<br><br>**(b) Destructor:**<br>```cpp<br>Pixel::~Pixel() {}   // no heap memory, nothing to free<br>```<br><br>**(c) addSamples:**<br>```cpp<br>uchar Pixel::addSamples(const uchar a, const uchar b) const {<br>    float t = ((float)a + (float)b) / 2.0f;<br>    return (uchar)t;<br>}<br>```<br>Cast to float BEFORE dividing to avoid integer truncation issues.<br><br>**(d) operator+:**<br>```cpp<br>const Pixel Pixel::operator+(const Pixel& in) const {<br>    uchar rr = addSamples(r, in.r);<br>    uchar gg = addSamples(g, in.g);<br>    uchar bb = addSamples(b, in.b);<br>    return Pixel(rr, gg, bb);<br>}<br>```</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="q7">
+  <div class="exam-q-header" onclick="toggleQ('q7')">
+    <span class="exam-q-title">Q7 — Templated Vect & Mat Classes (C++)</span>
+    <span class="pts-badge">33 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">Given a templated `Vect<T>` (1D array) and derived `Mat<T>` (2D stored as 1D).<br><br><b>(a) 5 pts)<b> Implement `get_size()` and `get_elem(unsigned int index)` for Vect.<br><b>(b) (6 pts)<b> Implement `convert_matrix(T<b> in, T<b> out, unsigned int m, unsigned int n)` — flattens 2D to 1D using `new`.<br><b>(c) (6 pts)<b> Implement Mat's constructor `Mat(unsigned int m, unsigned int n, T* arr)`.<br><b>(d) (8 pts)<b> Implement `Mat::get_elem(unsigned int I, unsigned int J)`.<br><b>(e) (8 pts)<b> Implement polymorphic `Mat::print()` — print each row on its own line using Vect's print().</div>
+    <button class="reveal-btn" onclick="revealSol('q7')">Show Solution</button>
+    <div class="solution" id="sol-q7" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">**(a) Vect accessors:**<br>```cpp<br>template<class T> unsigned int Vect<T>::get_size() const { return size; }<br>template<class T> T* Vect<T>::get_elem(unsigned int index) const { return &(array[index]); }<br>```<br><br>**(b) convert_matrix:**<br>```cpp<br>template<class T><br>void convert_matrix(T** in, T** out, unsigned int m, unsigned int n) {<br>    T* tmp = new T[m * n];<br>    unsigned int idx = 0;<br>    for(unsigned int i = 0; i < m; i++)<br>        for(unsigned int j = 0; j < n; j++)<br>            tmp[idx++] = in[i][j];<br>    *out = tmp;   // return pointer to flat array via out<br>}<br>```<br><br>**(c) Mat constructor (delegates to Vect):**<br>```cpp<br>template<class T><br>Mat<T>::Mat(unsigned int mm, unsigned int nn, T* arr) : Vect<T>(mm * nn, arr) {<br>    m = mm;   // store row count; n = size/m<br>}<br>```<br><br>**(d) Mat::get_elem(I, J):**<br>```cpp<br>template<class T><br>T* Mat<T>::get_elem(unsigned int I, unsigned int J) {<br>    unsigned int n = Vect<T>::get_size() / m;   // cols = total/rows<br>    unsigned int index = I * n + J;<br>    return Vect<T>::get_elem(index);<br>}<br>```<br><br>**(e) Mat::print():**<br>```cpp<br>template<class T><br>void Mat<T>::print() const {<br>    unsigned int n = Vect<T>::get_size() / m;<br>    for(unsigned int i = 0; i < m; i++) {<br>        const Vect<T> tmp(n, Vect<T>::get_elem(i * n));<br>        tmp.print();   // prints one row then newline<br>    }<br>}<br>```</div>
+    </div>
+  </div>
+</div></div></div>
+  <div id="cs330-topics" class="sub-panel" style="display:none"><div class="topics-list">
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('c_basics')">
+    <span>C: Pointers, Memory, and Arrays</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-c_basics" style="display:none">
+    <div class="topic-content">Pointers:<br>- int* p = &x;  → p holds address of x<br>- *p  → dereference (get value at address)<br>- p++  → move to next int-sized address<br>- Arrays decay to pointer: int A[] == int* A<br><br>Pointer arithmetic:<br>- A[i] == *(A+i)  always equivalent<br>- For 1-indexed: A[i-1] or *(A+i-1)<br><br>Heap memory (manual):<br>- malloc(n * sizeof(T))  → allocate n elements of type T<br>- free(ptr)  → release heap memory<br>- MUST free everything malloc'd → no memory leaks<br>- After free: set ptr = NULL to avoid dangling pointer<br><br>Common memory pitfalls:<br>- Memory leak: allocate but never free<br>- Double free: free the same pointer twice<br>- Use after free: access memory after freeing<br>- Buffer overflow: write past end of array<br><br>sizeof:<br>- sizeof(struct) may be padded for alignment<br>- sizeof(int*) = 8 on 64-bit, sizeof(int) = 4 typically<br><br>2D arrays:<br>- int** A = malloc(sizeof(int*) * rows);<br>- for each row: A[i] = malloc(sizeof(int) * cols);<br>- Free: free each row, then free A</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('cpp_oop')">
+    <span>C++: OOP, Constructors, Destructors</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-cpp_oop" style="display:none">
+    <div class="topic-content">Constructor/Destructor order:<br>- Base class constructor runs BEFORE derived class constructor<br>- Destructor order is REVERSED: derived first, then base<br>- Always declare destructor virtual if using polymorphism<br><br>Copy Constructor:<br>- Called when passing by value, returning by value, or explicit copy<br>- Default (shallow) copy: copies pointers — shared memory!<br>- Deep copy: allocate new memory and copy contents<br>- Signature: ClassName(const ClassName& other)<br><br>Rule of Three:<br>If you need a custom destructor, you also need a custom copy constructor AND copy assignment operator.<br><br>Access control:<br>- private: only accessible within the class<br>- protected: accessible in class + derived classes<br>- public: accessible everywhere<br><br>const member functions:<br>- Cannot modify any member variables<br>- Can be called on const objects<br>- Declared with const after parameter list: void foo() const;<br><br>Static members:<br>- Shared across ALL instances of the class<br>- Static data: one copy for the whole class<br>- Static method: no 'this' pointer, can only access static members</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('cpp_templates')">
+    <span>C++: Templates & Operator Overloading</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-cpp_templates" style="display:none">
+    <div class="topic-content">Templates:<br>- template<class T> class Vect { ... };<br>- Defers type specification to use time<br>- Must be defined in header (compiler needs to see definition for each instantiation)<br>- template<class T> void func() { ... }  for function templates<br><br>Operator Overloading:<br>- const Pixel operator+(const Pixel& in) const;<br>- operator[] for array subscript<br>- Returning by value vs. reference: return new object (not reference to local)<br>- Use const wherever possible<br><br>Inheritance:<br>- class Derived : public Base { ... };<br>- Derived constructor must call base constructor: Derived() : Base(args) {}<br>- Virtual functions: resolved at runtime (polymorphism)<br>- Pure virtual: virtual void foo() = 0; → abstract class<br><br>Templates + Inheritance:<br>- template<class T> class Mat : public Vect<T> { ... };<br>- Must use Vect<T>::method() to call base class template methods (name lookup)</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('bst_rbt')">
+    <span>BST & Red-Black Trees</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-bst_rbt" style="display:none">
+    <div class="topic-content">BST (Binary Search Tree):<br>- left subtree keys < node key < right subtree keys<br>- Search/Insert/Delete: O(h) where h = height<br>- Worst case: O(n) if unbalanced (sorted insertions)<br>- In-order traversal gives sorted order<br><br>Red-Black Tree (balanced BST):<br>Properties (every RBT must satisfy all 5):<br>1. Every node is red or black<br>2. Root is black<br>3. Every leaf (NIL) is black<br>4. If a node is red, both children are black (no two consecutive reds)<br>5. All paths from a node to its NIL descendants have the same number of black nodes<br><br>Height: O(log n) — guaranteed by these properties<br><br>Insert:<br>- Insert as in BST, color new node RED<br>- Fix violations: recolor and/or rotate<br>- Cases: uncle red (recolor), uncle black with two cases (rotations)<br><br>Delete:<br>- Remove as in BST<br>- If deleted node was black: "double black" violation → fix with rotations/recoloring<br>- Cases for fix-up: sibling red, sibling black with various child colors<br><br>Rotations:<br>- Left rotation: x's right child y becomes new root; x becomes y's left child<br>- Right rotation: symmetric<br>- O(1) pointer changes</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('unix')">
+    <span>Unix & Command Line</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-unix" style="display:none">
+    <div class="topic-content">Basic commands:<br>- ls, cd, pwd, mkdir, rm, cp, mv, cat, less, grep, find<br>- Pipes: cmd1 | cmd2  (stdout of cmd1 → stdin of cmd2)<br>- Redirection: cmd > file (write), cmd >> file (append), cmd < file (read)<br><br>Compilation:<br>- gcc -o output source.c  (compile C)<br>- g++ -o output source.cpp  (compile C++)<br>- -Wall: enable warnings; -g: debug info; -O2: optimize<br>- Make: build tool using Makefile<br><br>Debugging with gdb:<br>- gdb ./program; run; break main; next; step; print var; backtrace<br><br>File I/O in C:<br>- FILE* f = fopen("file.txt", "r");<br>- fread/fwrite for binary; fscanf/fprintf for text<br>- fclose(f);  — always close files<br><br>Valgrind (memory debugging):<br>- valgrind ./program  — detect leaks, invalid reads/writes</div>
+  </div>
+</div></div></div>
+  <div id="cs330-flash" class="sub-panel" style="display:none"><div class="fc-controls"><button onclick="prevCard()">◀</button><span id="fc-counter">1 / 20</span><button onclick="nextCard()">▶</button><button onclick="shuffleCards()" class="shuffle-btn">Shuffle</button></div><div class="fc-container"><div class="fc-card" id="fc-0"  onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What operator is used to get the memory address of a variable in C?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">The &amp; (address-of) operator. Example: int* p = &amp;x; stores the address of x in p.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-1" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is pointer arithmetic and how does it scale?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Arithmetic on pointers scales by the size of the pointed-to type. e.g., if int* p = 0x8000, then p++ gives 0x8004 (4 bytes for int); double* d = 0x6000, d++ gives 0x6008 (8 bytes for double).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-2" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What does malloc() do and what must always be done after using it?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">malloc() allocates a specified number of bytes on the heap and returns a pointer to the block. After use, free() must be called on the pointer to prevent memory leaks.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-3" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are the four memory segments in a C program?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Text (code), Data (global/static variables), Stack (static/local memory, short-lived), and Heap (dynamic memory, lives until freed or program ends).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-4" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the difference between stack and heap memory allocation?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Stack memory is automatically managed, short-lived (lasts during a function call), and fast. Heap memory is manually managed with malloc/free, long-lived, and more flexible but slower to allocate.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-5" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is a shallow copy of a struct and why can it cause problems?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">A shallow copy copies each member value individually. If a member is a pointer, only the address is copied (not the pointed-to data), so both structs point to the same memory, causing issues if one frees it.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-6" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are the three access control types in C++ and what do they mean?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">public: accessible by anything; private: accessible only inside the class; protected: accessible inside the class and inside derived (inherited) classes.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-7" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">How do structs and classes differ in terms of default access control in C++?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">In a struct, members are public by default. In a class, members are private by default. Otherwise they are nearly identical.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-8" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is a constructor in C++ and what are its key characteristics?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">A constructor initializes class members automatically when an object is created. It has the same name as the class, no return type, cannot be called explicitly, and runs once per object.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-9" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is constructor overloading in C++?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Defining multiple constructors for a class with different parameter lists, allowing objects to be initialized in different ways. e.g., Rectangle(int w, int h) and Rectangle(int d).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-10" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the BST property?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">For any node x in a BST: all keys in the left subtree are &lt;= key[x], and all keys in the right subtree are &gt; key[x].</div></div>
+  </div>
+</div><div class="fc-card" id="fc-11" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the time complexity of BST operations and what determines it?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">O(log n) if the tree is balanced/complete; O(n) if the tree degenerates into a linear chain. The height of the tree determines complexity.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-12" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">How do you find the minimum and maximum keys in a BST?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Minimum: follow left child pointers until reaching a node with no left child. Maximum: follow right child pointers until reaching a node with no right child.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-13" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are the three cases for BST deletion?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Case 1: Node is a leaf – set parent's pointer to NIL. Case 2: Node has one child – replace node with its child. Case 3: Node has two children – replace node with its in-order successor, then splice out the successor.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-14" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are the 5 Red-Black Tree properties?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">1) Every node is RED or BLACK. 2) Root is BLACK. 3) Every leaf (NIL/sentinel) is BLACK. 4) If a node is RED, both children are BLACK. 5) All paths from any node to descendant leaves have the same number of BLACK nodes.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-15" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is a sentinel in a Red-Black Tree and why is it used?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">A sentinel is a single BLACK Node* that replaces all NIL/nullptr pointers in the RBT. It simplifies implementation by ensuring all leaf and missing-child pointers point to a real (though dummy) node rather than null.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-16" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are rotations in a Red-Black Tree and why are they needed?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Left and right rotations restructure the tree locally to maintain or restore RBT properties after insertions or deletions that may violate them, while preserving the BST property.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-17" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What steps are taken when inserting a node into a Red-Black Tree?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">1) Insert the node using standard BST insertion. 2) Color the new node RED. 3) Call rb-insert-fixup to perform recoloring and rotations to restore RBT properties.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-18" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What Unix compile flags are required for C and C++ code in CS330?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">C code must compile with -std=c11; C++ code must compile with -std=c++14. Code that does not compile receives a 0.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-19" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the difference between static and dynamic libraries?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Static libraries (created with ar) include all required function code directly in the executable, making it larger but self-contained. Dynamic libraries (created with gcc --shared) are linked at runtime, resulting in a smaller executable but requiring the library at runtime.</div></div>
+  </div>
+</div></div></div>
+</div>
+<div id="panel-ec434" class="tab-panel ">
+  <h2>EC 434 — Environmental Economics</h2>
+  <div class="section-nav">
+    <button class="snav-btn active" onclick="showSection('ec434','exam',this)">Practice Exam</button>
+    <button class="snav-btn" onclick="showSection('ec434','topics',this)">Key Topics</button>
+    <button class="snav-btn" onclick="showSection('ec434','flash',this)">Flashcards</button>
+  </div>
+  <div id="ec434-exam" class="sub-panel active"><div class="practice-exam">
+<div class="exam-q" id="ec1">
+  <div class="exam-q-header" onclick="toggleQ('ec1')">
+    <span class="exam-q-title">Welfare Analysis & Externalities</span>
+    <span class="pts-badge">20 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">(a) Draw a market with a negative externality. Label the private MC, social MC, equilibrium Q, efficient Q, and deadweight loss.<br><br>(b) A firm emits pollution. Private MC = 10 + 2Q. Social MC = 10 + 4Q. Demand (MB) = 50 − 2Q.<br>  (i) Find the market equilibrium quantity and price.<br>  (ii) Find the efficient quantity.<br>  (iii) What Pigouvian tax achieves efficiency? How much tax revenue is collected?</div>
+    <button class="reveal-btn" onclick="revealSol('ec1')">Show Solution</button>
+    <div class="solution" id="sol-ec1" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">(a) Key diagram elements:<br>- Private MC curve (lower) and Social MC = Private MC + Marginal Damage (higher)<br>- Equilibrium Q_mkt where MB = Private MC → overproduction<br>- Efficient Q* where MB = Social MC → lower quantity<br>- DWL = triangle between MB and Social MC from Q* to Q_mkt<br><br>(b) Calculations:<br>(i) Market equilibrium: MB = Private MC → 50-2Q = 10+2Q → 40 = 4Q → Q_mkt = 10, P = 30<br><br>(ii) Efficient: MB = Social MC → 50-2Q = 10+4Q → 40 = 6Q → Q* = 6.67, P* = 36.67<br><br>(iii) Pigouvian tax = Marginal damage at Q* = Social MC - Private MC at Q* = 2Q* = 2(6.67) = 13.33<br>Tax revenue = t × Q* = 13.33 × 6.67 ≈ $88.9</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="ec2">
+  <div class="exam-q-header" onclick="toggleQ('ec2')">
+    <span class="exam-q-title">Cap and Trade vs. Tax</span>
+    <span class="pts-badge">15 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">Two firms must reduce pollution. Firm A has MAC_A = 20 + 2q_A. Firm B has MAC_B = 10 + 4q_B. The regulator wants 10 units of total abatement.<br><br>(a) Find the cost-effective allocation (MAC_A = MAC_B = t*).<br>(b) What emission price (carbon price) achieves this?<br>(c) Compare total abatement cost under cost-effective allocation vs. uniform standard (each abates 5 units).</div>
+    <button class="reveal-btn" onclick="revealSol('ec2')">Show Solution</button>
+    <div class="solution" id="sol-ec2" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">(a) Cost-effective: set MAC_A = MAC_B<br>20+2q_A = 10+4q_B<br>Also: q_A + q_B = 10<br><br>From MAC equality: 20+2q_A = 10+4(10-q_A) = 50-4q_A<br>→ 6q_A = 30 → q_A = 5, q_B = 5<br><br>Wait: 20+2(5) = 30; 10+4(5) = 30 ✓  So by coincidence, uniform and cost-effective happen to be equal here.<br><br>Let me verify: MAC_A at q=5: 20+10=30; MAC_B at q=5: 10+20=30 → both equal → cost-effective achieved.<br><br>(b) Carbon price = $30 (the equilibrium MAC)<br><br>(c) Total cost under cost-effective allocation:<br>- Firm A: area under MAC_A from 0 to 5 = (20×5) + (2×5²/2) = 100+25 = 125<br>- Firm B: area under MAC_B from 0 to 5 = (10×5) + (4×5²/2) = 50+50 = 100<br>- Total: $225<br><br>Under uniform (each abates 5), same result here since MACs are equal at q=5 each.</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="ec3">
+  <div class="exam-q-header" onclick="toggleQ('ec3')">
+    <span class="exam-q-title">Contingent Valuation</span>
+    <span class="pts-badge">15 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">A CV survey asks 100 respondents whether they'd pay $50 to protect a wetland. 60 say yes. Another group of 100 is asked about $100: 30 say yes.<br><br>(a) What is a "protest zero" and why does it matter?<br>(b) Using a simple linear probability model, estimate mean WTP.<br>(c) Name two potential biases in this CV study and how to mitigate them.</div>
+    <button class="reveal-btn" onclick="revealSol('ec3')">Show Solution</button>
+    <div class="solution" id="sol-ec3" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">(a) Protest zero: a respondent says $0 WTP not because they don't value the good, but because they object to the survey design (e.g., "government should pay," "this is a rights issue"). Including protest zeros understates true WTP. Identify through follow-up questions; often excluded from WTP estimates.<br><br>(b) Linear probability model:<br>P(yes) = a + b·bid<br>At $50: P = 0.60; at $100: P = 0.30<br>Slope b = (0.30-0.60)/(100-50) = -0.006<br>Intercept: 0.60 = a - 0.006×50 → a = 0.90<br><br>Mean WTP = bid where P(yes) = 0.5:<br>0.5 = 0.90 - 0.006×WTP → WTP = 0.40/0.006 = **$66.67**<br><br>(c) Biases and mitigations:<br>1. Hypothetical bias (people overstate WTP in surveys vs. real money) → use certainty follow-up, calibration factors, real-money validation<br>2. Starting point / anchoring bias (suggested bid anchors responses) → randomize bid amounts across respondents<br>3. Embedding effect (WTP for wetland ≈ WTP for all environment) → careful scope test, sequential valuation</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="ec4">
+  <div class="exam-q-header" onclick="toggleQ('ec4')">
+    <span class="exam-q-title">Value of Statistical Life</span>
+    <span class="pts-badge">10 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">A hedonic wage regression estimates: wage = 15,000 + 2,000×risk + other controls, where risk = annual mortality risk per 10,000 workers.<br><br>(a) Interpret the coefficient on risk.<br>(b) Calculate the VSL.<br>(c) A new regulation costs $5 billion and is expected to save 1,000 lives. Is it cost-effective at this VSL?</div>
+    <button class="reveal-btn" onclick="revealSol('ec4')">Show Solution</button>
+    <div class="solution" id="sol-ec4" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">(a) Coefficient interpretation: workers accept a $2,000 annual wage premium for each 1-in-10,000 increase in annual mortality risk. Equivalently, they accept $0.20 per additional unit of annual risk expressed per worker.<br><br>(b) VSL calculation:<br>VSL = wage premium / risk change = $2,000 / (1/10,000) = $2,000 × 10,000 = **$20,000,000**<br><br>(c) Cost-benefit:<br>Benefit = 1,000 lives × $20M/life = $20 billion<br>Cost = $5 billion<br>Net benefit = $15 billion > 0 → **yes, cost-effective**<br><br>Note: VSL of $20M is high (typical US estimates ~$10M). Regardless, $5B / 1,000 lives = $5M per life saved < $20M VSL → passes cost-benefit test.</div>
+    </div>
+  </div>
+</div>
+<div class="exam-q" id="ec5">
+  <div class="exam-q-header" onclick="toggleQ('ec5')">
+    <span class="exam-q-title">Climate Economics & IAM</span>
+    <span class="pts-badge">15 pts</span>
+    <span class="expand-icon">▼</span>
+  </div>
+  <div class="exam-q-body" style="display:none">
+    <div class="question-text">(a) Explain what an Integrated Assessment Model (IAM) is and the key steps.<br>(b) How does the discount rate affect the Social Cost of Carbon (SCC)? Why is there disagreement?<br>(c) Why is climate change particularly difficult to address compared to local pollution? What policies exist?</div>
+    <button class="reveal-btn" onclick="revealSol('ec5')">Show Solution</button>
+    <div class="solution" id="sol-ec5" style="display:none">
+      <div class="solution-label">Solution</div>
+      <div class="solution-text">(a) IAM: a model that links physical/ecological systems with economic systems to estimate the costs and benefits of climate change or pollution policies.<br><br>Key steps:<br>1. Emissions scenarios (how much CO₂ is emitted)<br>2. Climate model (emissions → atmospheric concentrations → temperature change)<br>3. Damage function (temperature change → economic damages, e.g., % of GDP)<br>4. Cost model (mitigation costs)<br>5. Discounting (future damages and costs → present value)<br>6. Output: optimal carbon price, net benefits of policies<br><br>(b) Discount rate and SCC:<br>- High discount rate (e.g., 5%): future damages are heavily discounted → SCC is low (e.g., ~$20-50/tCO₂) → less aggressive policy justified<br>- Low discount rate (e.g., 1-2%): future damages count more → SCC is high (e.g., $200+/tCO₂) → stronger policy justified<br>- Disagreement: partly ethical (how much do we owe future generations?) and partly empirical (what's the right long-run real interest rate?)<br><br>(c) Climate as global public good:<br>- CO₂ is a global stock pollutant (accumulates, mixes globally) → local pollution doesn't<br>- Free rider problem: each country benefits from others' abatement without paying<br>- No global enforcement mechanism<br>- Policies: Paris Agreement (voluntary pledges), carbon taxes, cap-and-trade, technology standards, international transfers</div>
+    </div>
+  </div>
+</div></div></div>
+  <div id="ec434-topics" class="sub-panel" style="display:none"><div class="topics-list">
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('foundations')">
+    <span>Foundations & Welfare Analysis</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-foundations" style="display:none">
+    <div class="topic-content">**Core concepts:**<br>- **Normative vs Positive analysis** — normative = what *should* be (value judgments); positive = what *is* (empirical facts)<br>- **MB and MC curves** — individual curves aggregate *horizontally* for private goods (sum quantities at each price); aggregate *vertically* for public goods (sum WTP at each quantity)<br>- **Efficient equilibrium** — where MB = MC (maximizes net benefit = TB − TC)<br>- **Cost-effective** — achieves a given goal at minimum total cost; efficient requires MB = MC across all actors<br><br>**Welfare measures:**<br>- Consumer surplus = area below demand, above price<br>- Producer surplus = area above supply, below price<br>- Deadweight loss (DWL) = efficiency loss from being at wrong quantity (triangle between MB and MC from efficient to actual Q)<br>- Net benefit = Total Benefit − Total Cost<br><br>**Externalities:**<br>- Negative externality: private MC < social MC → overproduction, DWL<br>- Positive externality: private MB < social MB → underproduction<br>- Efficient level: where **social MB = social MC**<br><br>**Key math: Aggregating curves**<br>- Private goods: add quantities at each price → Qₐᵍᵍ(P) = Σ Qᵢ(P)<br>- Public goods: add WTP at each quantity → MBₐᵍᵍ(Q) = Σ MBᵢ(Q) (Samuelson condition)</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('policy')">
+    <span>Policy Solutions to Pollution</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-policy" style="display:none">
+    <div class="topic-content">For each policy know: **how it works, pros/cons, efficient? cost-effective?**<br><br>| Policy | Efficient? | Cost-effective? | Notes |<br>|---|---|---|---|<br>| Pigouvian tax | Yes (if set = marginal damage) | Yes | Tax = external cost at efficient Q |<br>| Direct tax on pollution | Only if set correctly | Yes (equalizes MAC) | Same as Pigouvian |<br>| Abatement subsidy | Yes (if set correctly) | Yes | Can cause entry issues |<br>| Uniform quantity standard | No (unless symmetric firms) | No | Same abatement for all firms |<br>| Cap and trade | Yes (if cap = efficient level) | **Yes** (firms trade to equalize MAC) | Most cost-effective under heterogeneous firms |<br>| Technology standard | No | No | Doesn't minimize cost |<br>| Coase theorem | Yes (if no transaction costs) | Yes | Private bargaining; requires defined property rights |<br><br>**Weitzman Prices vs. Quantities:**<br>- Uncertain MB curve (flat): prices and quantities perform similarly<br>- Steep MB, flat MC → **quantities better** (avoid large welfare loss from Q error)<br>- Flat MB, steep MC → **prices better** (avoid large cost from over-abatement)<br>- Climate change: typically prefer **carbon tax** (prices) because MB of abatement is quite flat<br><br>**Finding efficient abatement:** set MAC_firm1 = MAC_firm2 = ... = MB of abatement</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('valuation')">
+    <span>Non-Market Valuation</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-valuation" style="display:none">
+    <div class="topic-content">**Types of value:**<br>- **Use value:** Direct (recreation, consumption) / Indirect (ecosystem services)<br>- **Non-use value:** Option value (future use), Bequest (future generations), Existence (knowing it exists)<br><br>**Stated Preference (ask people):**<br>- **Contingent Valuation (CV):**<br>  - Survey asks WTP for a hypothetical good/change<br>  - Biases: strategic, hypothetical, embedding, starting point, payment vehicle<br>  - Protest zeros: genuine $0 WTP vs. rejecting the survey design<br>  - NOAA Blue Ribbon Panel guidelines: binary choice format ("would you pay $X?"), in-person interviews, include "no" option, test for scope sensitivity<br>  - **Estimating WTP from regression:** use probit/logit, compute mean WTP from bid coefficient<br><br>- **Choice Experiments:**<br>  - Respondents choose among alternatives with different attributes + cost<br>  - Can decompose WTP by attribute<br>  - Less susceptible to hypothetical bias than CV<br><br>**Revealed Preference (observe behavior):**<br>- **Hedonic Price Method:** house prices reflect environmental quality<br>  - Run regression: price = f(structural, neighborhood, environmental attributes)<br>  - WTP for environmental improvement = coefficient on that attribute<br>  - Limitation: requires functional form assumptions, capitalization<br><br>- **Travel Cost Method:** use visit cost as proxy for WTP for a recreation site<br>  - Consumer surplus = area under demand curve (estimated from visit frequency vs. travel cost)<br>  - Present discounted value of site = CS / discount rate (for site protection decisions)<br><br>**Benefits Transfer:** apply WTP estimates from one study to a new policy context<br>- Pros: cheap and fast<br>- Cons: may not match local conditions; population/site differences</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('vsl')">
+    <span>Value of Statistical Life (VSL)</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-vsl" style="display:none">
+    <div class="topic-content">**What is VSL?**<br>VSL is the rate at which society trades off wealth for small reductions in mortality risk. It is NOT the value of a specific identified life.<br><br>VSL = WTP / Δrisk = e.g., $600 WTP to reduce risk by 1/10,000 → VSL = $6 million<br><br>**Hedonic Wage Method:**<br>- Workers demand wage premiums for riskier jobs<br>- Run regression: wage = f(risk, education, experience, industry, ...)<br>- VSL = (∂wage/∂risk) × 1 (coefficient on risk, scaled to full statistical life)<br><br>**Math examples:**<br>- If WTP = $400 to reduce annual mortality risk by 1 in 10,000:<br>  VSL = $400 / (0.0001) = **$4,000,000**<br>- Cost-benefit using VSL: if a policy costs $1B and reduces 500 deaths, use VSL to value benefits<br>- Scaling: don't confuse "WTP per person for small risk change" with "WTP to definitely save a life"<br><br>**Issues with VSL:**<br>- Distributional concerns (lower-income workers may accept more risk for less pay)<br>- Heterogeneity across populations<br>- One VSL for all policies raises equity questions</div>
+  </div>
+</div>
+<div class="topic-card">
+  <div class="topic-header" onclick="toggleTopic('iam_climate')">
+    <span>Integrated Assessment Models & Climate Economics</span><span class="expand-icon">▼</span>
+  </div>
+  <div class="topic-body" id="topic-iam_climate" style="display:none">
+    <div class="topic-content">**IAM Definition:** Models that link physical/ecological systems with economic systems to estimate costs and benefits of climate change / pollution policies.<br><br>**Steps in an IAM:**<br>1. Emissions scenario<br>2. Atmospheric/physical model (concentrations → temperature)<br>3. Damage function (temperature → economic damages)<br>4. Discounting (future damages → present value)<br><br>**Air pollution IAM (in-class example):**<br>Emissions → concentrations → health/ecosystem effects → monetary damages<br><br>**Tropical Cyclone IAM:**<br>CO₂ emissions → warming → increased hurricane intensity → property damages<br><br>**Climate Economics:**<br>- **Stock pollutant** (CO₂) vs **flow pollutant** (local NOₓ): CO₂ accumulates globally → requires global coordination<br>- **Social Cost of Carbon (SCC):** marginal damage from emitting 1 additional tonne of CO₂ (today's price: ~$50–200/tCO₂ depending on discount rate)<br>- **Discount rate debate:**<br>  - High discount rate (Nordhaus ~5%) → future damages worth little → lower SCC → less aggressive policy<br>  - Low discount rate (Stern ~1.4%) → future damages matter more → higher SCC → stronger policy<br>  - Ethical dimension: how much do we value future generations?<br><br>**Present value math:**<br>PV = FV / (1 + r)^t<br>NPV = Σ (Benefits_t − Costs_t) / (1+r)^t<br><br>**Challenges of global public goods:**<br>- Climate is a global public good → free rider problem → underprovision<br>- Requires international agreements (Paris Accord, etc.)<br>- Monitoring and enforcement are difficult</div>
+  </div>
+</div></div></div>
+  <div id="ec434-flash" class="sub-panel" style="display:none"><div class="fc-controls"><button onclick="prevCard()">◀</button><span id="fc-counter">1 / 20</span><button onclick="nextCard()">▶</button><button onclick="shuffleCards()" class="shuffle-btn">Shuffle</button></div><div class="fc-container"><div class="fc-card" id="fc-0"  onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the difference between efficiency and cost-effectiveness in pollution policy?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Efficiency: policy maximizes net social benefit (MB=MC). Cost-effectiveness: policy achieves a given abatement target at minimum total cost (equates MCs across firms).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-1" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is a Pigouvian tax and how is it set?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">An indirect tax on a good/activity that generates a negative externality, set equal to the marginal external cost at the efficient quantity to internalize the externality.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-2" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">Under Weitzman's prices vs. quantities framework, when should a price instrument (tax) be preferred over a quantity instrument (cap)?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">A tax is preferred when the MC curve is steeper than the MB curve, because the welfare loss from a quantity mistake is smaller under a price instrument.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-3" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the Samuelson Condition for efficient provision of a public good?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">The sum of all individuals' marginal benefits (MBs) equals the marginal cost: Σ MB_i = MC.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-4" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is Deadweight Loss (DWL) in the context of a negative externality?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">The net welfare loss from producing at the market equilibrium instead of the efficient equilibrium; the triangle between the social MC and private MC curves over the excess quantity produced.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-5" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is Contingent Valuation (CV) and what type of value can it capture?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">A stated preference survey method that asks respondents their WTP for a hypothetical change; it can capture both use and nonuse (existence, bequest, option) values.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-6" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are protest zeros in CV surveys and how are they handled?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Protest zeros are zero WTP responses reflecting objections to the payment vehicle or policy (not true zero valuation). They are identified via follow-up questions and dropped from analysis.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-7" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the Value of Statistical Life (VSL)?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">VSL is the aggregate WTP for a small reduction in mortality risk scaled up to one statistical life; it is NOT the value of any specific individual's life.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-8" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">How is VSL estimated using the hedonic wage technique?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">By regressing wages on job risk and worker/job characteristics; the coefficient on risk gives the wage premium per unit risk, which is then scaled up to derive VSL (e.g., VSL = ΔWage / Δrisk).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-9" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the Social Cost of Carbon (SCC)?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">The discounted present value of economic damages from emitting one additional ton of CO2 at a given point in time; used in regulatory cost-benefit analysis.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-10" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are Integrated Assessment Models (IAMs) and name three examples?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">IAMs link socioeconomic emissions scenarios to climate outcomes to economic damage functions to estimate climate costs and benefits. Examples: DICE (Nordhaus), FUND (Anthoff &amp; Tol), PAGE (Hope).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-11" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are the three steps in an Integrated Assessment Model?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Step 1: Translate socioeconomic scenarios into emissions/concentrations. Step 2: Convert emissions to climate outcomes (temperature, precipitation, sea level). Step 3: Apply damage functions to climate outcomes to estimate economic damages.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-12" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the hedonic house price method and what does it value?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">A revealed preference method that uses variation in property prices to infer the implicit price of non-market attributes (e.g., air quality, noise, school quality) through regression analysis.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-13" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the Travel Cost Method (TCM) and what does it measure?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">A revealed preference method that uses observed trip costs (travel expenses + time) to a recreational site as a proxy for price, estimating the demand curve and consumer surplus for the site.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-14" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is Benefits Transfer and what are its strengths and weaknesses?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Applying valuation estimates from an existing study to a new policy context. Strength: cheaper and faster than a new study. Weakness: may be inaccurate if populations, sites, or contexts differ significantly.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-15" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is the difference between use value and nonuse value?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Use value: value derived from direct (e.g., recreation) or indirect (e.g., ecosystem services) use of a resource. Nonuse value: value from existence (knowing it exists), bequest (for future generations), or option (future potential use).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-16" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are the key features of a stock pollutant vs. a flow pollutant, and how does this affect efficient abatement analysis?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Stock pollutants (e.g., CO2) accumulate and are long-lived; efficient abatement maximizes PV of benefits minus PV of costs. Flow pollutants are short-lived; efficient abatement maximizes current B(A) – C(A).</div></div>
+  </div>
+</div><div class="fc-card" id="fc-17" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is Cap and Trade (Emissions Trading) and when is it cost-effective?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">A quantity-based policy where a total cap on emissions is set and firms trade permits. It achieves cost-effectiveness because trading equalizes marginal abatement costs (MACs) across all regulated firms.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-18" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What is a payment vehicle in Contingent Valuation, and why does it matter?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">The mechanism through which respondents would pay (e.g., tax, entry fee, donation). It must be credible and relevant; an inappropriate vehicle can cause protest responses and biased WTP estimates.</div></div>
+  </div>
+</div><div class="fc-card" id="fc-19" style="display:none" onclick="flipCard(this)">
+  <div class="fc-inner">
+    <div class="fc-front"><div class="fc-label">Question</div><div class="fc-text">What are the key NOAA Blue Ribbon Panel recommendations for CV surveys?</div></div>
+    <div class="fc-back"><div class="fc-label">Answer</div><div class="fc-text">Use in-person interviews, conservative WTP estimates, dichotomous choice (yes/no) format, include substitute reminders, pre-test for scope sensitivity, report response rates, and use random sampling.</div></div>
+  </div>
+</div></div></div>
+</div></main>
+<script>
+// Tab switching
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Section switching within a course
+function showSection(tabId, section, btn) {
+  ['exam','topics','flash'].forEach(s => {
+    const el = document.getElementById(tabId + '-' + s);
+    if(el) { el.style.display = s === section ? 'block' : 'none'; }
+  });
+  btn.closest('.section-nav').querySelectorAll('.snav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// Practice exam question expand/collapse
+function toggleQ(id) {
+  const body = document.querySelector('#' + id + ' .exam-q-body');
+  const icon = document.querySelector('#' + id + ' .expand-icon');
+  if(body.style.display === 'none') { body.style.display = 'block'; icon.textContent = '▲'; }
+  else { body.style.display = 'none'; icon.textContent = '▼'; }
+}
+
+function revealSol(id) {
+  const sol = document.getElementById('sol-' + id);
+  const btn = document.querySelector('#' + id + ' .reveal-btn');
+  sol.style.display = 'block';
+  btn.style.display = 'none';
+}
+
+// Topic expand/collapse
+function toggleTopic(id) {
+  const body = document.getElementById('topic-' + id);
+  const icon = body.previousElementSibling.querySelector('.expand-icon');
+  if(body.style.display === 'none') { body.style.display = 'block'; icon.textContent = '▲'; }
+  else { body.style.display = 'none'; icon.textContent = '▼'; }
+}
+
+// Flashcards
+const fcState = {};
+function initFc(prefix, total) {
+  fcState[prefix] = { idx: 0, total, order: [...Array(total).keys()] };
+}
+function currentFcPrefix() {
+  const panel = document.querySelector('.tab-panel.active');
+  const sub = panel ? panel.querySelector('.sub-panel.active, .sub-panel[style=""]') : null;
+  return panel ? panel.id.replace('panel-','') : null;
+}
+
+let fcIdx = 0, fcTotal = 0, fcOrder = [];
+function setupFc(prefix, total) {
+  fcIdx = 0; fcTotal = total;
+  fcOrder = [...Array(total).keys()];
+  updateFcDisplay(prefix);
+}
+function updateFcDisplay(prefix) {
+  for(let i = 0; i < fcTotal; i++) {
+    const el = document.getElementById('fc-' + i);
+    if(el) el.style.display = i === fcOrder[fcIdx] ? 'block' : 'none';
+    if(el) el.classList.remove('flipped');
+  }
+  const counter = document.getElementById('fc-counter');
+  if(counter) counter.textContent = (fcIdx + 1) + ' / ' + fcTotal;
+}
+function nextCard() {
+  if(fcIdx < fcTotal - 1) { fcIdx++; updateFcDisplay(); }
+}
+function prevCard() {
+  if(fcIdx > 0) { fcIdx--; updateFcDisplay(); }
+}
+function shuffleCards() {
+  for(let i = fcOrder.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [fcOrder[i],fcOrder[j]] = [fcOrder[j],fcOrder[i]];
+  }
+  fcIdx = 0; updateFcDisplay();
+}
+function flipCard(el) { el.classList.toggle('flipped'); }
+
+// Init flashcard counts on load
+window.addEventListener('load', () => {
+  const cards = document.querySelectorAll('.fc-card');
+  fcTotal = cards.length;
+  fcOrder = [...Array(fcTotal).keys()];
+});
+</script>
+</body>
+</html>
